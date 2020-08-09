@@ -56,11 +56,16 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+# display branch name if in git repo
+# if error => /dev/null
+# sed => remove not starting with *
+	# enclose in parentheses
 parse_git_branch() {
      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
 if [ "$color_prompt" = yes ]; then
+# enclose in double quotes to evaluate expression parse_git_branch
     PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \[\e[91m\]\$(parse_git_branch)\n\[\033[00m\]\$ "
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
